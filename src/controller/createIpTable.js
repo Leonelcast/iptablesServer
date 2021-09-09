@@ -1,51 +1,95 @@
 const child = require('child_process')
 
-const createIpTable =  (req, res) => {
+function createIpTableOutput(req, res) {
     try {
-        const data = req.body
-
-        let command;
-
-        if (data.chain != 'OUTPUT') {
-            command = 'iptables -A ' + data.chain + ' -i ' + data.interfas + ' -s ' + data.origen + ' -p ' + data.protocol + ' -m multiport --dports ' + data.ports + ' -j ' + data.destino
-        } else {
-            command = 'iptables -A ' + data.chain + ' -s ' + data.origen + ' -p ' + data.protocol + ' -m multiport --dports ' + data.ports + ' -j ' + data.destino
-        }
-        
-
-        child.exec(command, (error, stdout, stderr) => {
-            
+        const iptable = "iptables -A OUTPUT -s 192.168.1.10 -p udp --dport 8080 -j ACCEPT"
+        child.exec(iptable, (error) => {
             if (error) {
                 res.status(500).send({
-                    ok: false,
-                    message: 'Internal server error!',
+                    message: 'Error en la conexion con el servidor!',
                     error
                 })
             }
-    
+
             res.status(200).send({
                 data: {
                     ok: true,
-                    stdout,
-                    stderr
+                    iptable
                 }
             })
         })
-        
     } catch (error) {
-        res.json({
-            data: {
-                ok: false,
-                command,
-                message: 'Internal server error!'
-            }
+        console.log(error)
+        res.status(500).send({
+            message: 'Error en la conexion con el servidor!',
+            error
         })
-    } 
+    }
 }
+function createIpTableInput(req, res) {
+    try {
+        const iptable = "iptables -A INPUT -s 192.168.1.10 -p tcp --dport 8080 -j ACCEPT"
+        child.exec(iptable, (error) => {
+            if (error) {
+                res.status(500).send({
+                    message: 'Error en la conexion con el servidor!',
+                    error
+                })
+            }
+
+            res.status(200).send({
+                data: {
+                    ok: true,
+                    iptable
+                }
+            })
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            message: 'Error en la conexion con el servidor!',
+            error
+        })
+    }
+}
+function createIpTableForward(req, res) {
+    try {
+        const iptable = "iptables -A FORWARD -s 192.168.1.10 -p tcp --dport 8080 -j ACCEPT"
+        child.exec(iptable, (error) => {
+            if (error) {
+                res.status(500).send({
+                    message: 'Error en la conexion con el servidor!',
+                    error
+                })
+            }
+
+            res.status(200).send({
+                data: {
+                    ok: true,
+                    iptable
+                }
+            })
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            message: 'Error en la conexion con el servidor!',
+            error
+        })
+    }
+}
+
+
 module.exports = (app) => {
     return {
-        createIpTables: (req, res) => {
-            createIpTable(req, res)
+        createIpTableOutputs: ( req, res) => {
+            createIpTableOutput( req, res)
+        },
+        createIpTableInputs: ( req, res) => {
+            createIpTableInput( req, res)
+        },
+        createIpTableForwards: ( req, res) => {
+            createIpTableForward( req, res)
         }
     }
 

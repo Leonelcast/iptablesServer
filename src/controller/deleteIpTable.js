@@ -1,9 +1,10 @@
 const child = require('child_process')
-const AllIptable =  (res) => {
+
+function deleteIpTable(req, res) {
     try {
-        child.exec('iptables -nL', (error, stdout, stderr) => {
+        const iptable = "iptables -F"
+        child.exec(iptable, (error) => {
             if (error) {
-                console.log(error)
                 res.status(500).send({
                     message: 'Error en la conexion con el servidor!',
                     error
@@ -12,12 +13,14 @@ const AllIptable =  (res) => {
 
             res.status(200).send({
                 data: {
-                    stdout: stdout.split('\n'),
-                    stderr
+                    ok: true,
+                    iptable,
+                    message: 'Reglas eliminadas con exito'
                 }
             })
         })
     } catch (error) {
+        console.log(error)
         res.status(500).send({
             message: 'Error en la conexion con el servidor!',
             error
@@ -28,10 +31,9 @@ const AllIptable =  (res) => {
 
 module.exports = (app) => {
     return {
-        AllIptables: (req, res) => {
-            AllIptable(res)
+        deleteIpTables: ( req, res) => {
+            deleteIpTable( req, res)
         }
     }
 
 }
-

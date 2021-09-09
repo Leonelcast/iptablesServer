@@ -1,7 +1,8 @@
 const routes = require('express').Router()
 module.exports = (app) => {
 
-  //  const {getInterface, getOutput, getForward, getInput} = require('../controller/getIpTable')(app)
+  const {deleteIpTables} = require('../controller/deleteIpTable')(app)
+  routes.post('/deleteAll/', deleteIpTables)
   
     
    
