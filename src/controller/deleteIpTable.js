@@ -20,7 +20,6 @@ function deleteIpTable(req, res) {
             })
         })
     } catch (error) {
-        console.log(error)
         res.status(500).send({
             message: 'Error en la conexion con el servidor!',
             error

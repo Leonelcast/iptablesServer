@@ -19,7 +19,6 @@ function createIpTableOutput(req, res) {
             })
         })
     } catch (error) {
-        console.log(error)
         res.status(500).send({
             message: 'Error en la conexion con el servidor!',
             error
@@ -45,7 +44,6 @@ function createIpTableInput(req, res) {
             })
         })
     } catch (error) {
-        console.log(error)
         res.status(500).send({
             message: 'Error en la conexion con el servidor!',
             error
@@ -71,7 +69,6 @@ function createIpTableForward(req, res) {
             })
         })
     } catch (error) {
-        console.log(error)
         res.status(500).send({
             message: 'Error en la conexion con el servidor!',
             error
