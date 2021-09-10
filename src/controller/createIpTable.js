@@ -2,7 +2,9 @@ const child = require('child_process')
 
 function createIpTableOutput(req, res) {
     try {
-        const iptable = "iptables -A OUTPUT -s 192.168.1.10 -p udp --dport 8080 -j ACCEPT"
+        //const iptable = "iptables -A OUTPUT -s 192.168.1.10 -p udp --dport 8080 -j ACCEPT"
+        //Hacer Drop de la conexion completamente
+        const iptable = "iptables -P OUTPUT ACCEPT"
         child.exec(iptable, (error) => {
             if (error) {
                 res.status(500).send({
@@ -25,7 +27,10 @@ function createIpTableOutput(req, res) {
 }
 function createIpTableInput(req, res) {
     try {
-        const iptable = "iptables -A INPUT -s 192.168.1.10 -p tcp --dport 8080 -j ACCEPT"
+        
+       const iptable = "iptables -A INPUT -s 192.168.1.21 -j DROP"
+       //Hacer Drop de la conexion completamente
+       //const iptable = "iptables -P INPUT DROP"
         child.exec(iptable, (error) => {
             if (error) {
                 res.status(500).send({
