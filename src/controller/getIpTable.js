@@ -1,7 +1,7 @@
 const child = require('child_process')
 const AllIptable =  (res) => {
     try {
-        child.exec('iptables -nL', (error, stdout, stderr) => {
+        child.exec('iptables -nL', (error, rules) => {
             if (error) {
                 console.log(error)
                 res.status(500).send({
@@ -11,10 +11,8 @@ const AllIptable =  (res) => {
             }
 
             res.status(200).send({
-                data: {
-                    stdout: stdout.split('\n'),
-                    stderr
-                }
+               
+                    rules: rules.split('\n'),
             })
         })
     } catch (error) {
@@ -25,12 +23,15 @@ const AllIptable =  (res) => {
     }
 }
 
-
 module.exports = (app) => {
     return {
         AllIptables: (req, res) => {
             AllIptable(res)
-        }
+        },
+        getIptablesForwards: (req, res) => {
+            getIptablesForward(res)
+        } 
+
     }
 
 }

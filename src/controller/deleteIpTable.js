@@ -12,11 +12,9 @@ function deleteIpTable(req, res) {
             }
 
             res.status(200).send({
-                data: {
                     ok: true,
                     iptable,
                     message: 'Reglas eliminadas con exito'
-                }
             })
         })
     } catch (error) {

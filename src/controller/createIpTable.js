@@ -12,10 +12,8 @@ function createIpTableOutput(req, res) {
             }
 
             res.status(200).send({
-                data: {
                     ok: true,
                     iptable
-                }
             })
         })
     } catch (error) {
@@ -37,10 +35,8 @@ function createIpTableInput(req, res) {
             }
 
             res.status(200).send({
-                data: {
                     ok: true,
                     iptable
-                }
             })
         })
     } catch (error) {
@@ -62,10 +58,8 @@ function createIpTableForward(req, res) {
             }
 
             res.status(200).send({
-                data: {
                     ok: true,
                     iptable
-                }
             })
         })
     } catch (error) {
